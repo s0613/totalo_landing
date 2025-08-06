@@ -17,12 +17,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 export default function LandingPage() {
   // 사전신청 폼 상태
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<null | { type: "success" | "error"; message: string }>(null)
+  const { toast } = useToast()
 
   // 사전신청 폼 전송 함수
   async function handlePreRegisterSubmit(e: React.FormEvent) {
@@ -56,14 +58,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <img src="/logo.svg" alt="TotaloadCert" className="h-8 w-auto" />
+              <img src="/logo.svg" alt="TotaloadCert" className="h-8 w-auto cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-slate-300 hover:text-white transition-colors">
                 기능
-              </a>
-              <a href="#api" className="text-slate-300 hover:text-white transition-colors">
-                API 연동
               </a>
               <a href="#background" className="text-slate-300 hover:text-white transition-colors">
                 사업 배경
@@ -95,18 +94,10 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg">
+                <a href="#contact" className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg flex items-center justify-center rounded-lg transition-colors duration-200" style={{ minHeight: 48 }}>
                   데모 요청하기
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-800 px-8 py-4 text-lg bg-transparent"
-                >
-                  API 문서 보기
-                  <FileText className="ml-2 h-5 w-5" />
-                </Button>
+                </a>
               </div>
             </div>
             <div className="relative">
@@ -385,7 +376,14 @@ export default function LandingPage() {
             )}
           </form>
           <div className="flex justify-center space-x-8 text-slate-400">
-            <a href="#api" className="hover:text-emerald-400 transition-colors flex items-center space-x-2">
+            <a
+              href="#api"
+              className="hover:text-emerald-400 transition-colors flex items-center space-x-2"
+              onClick={e => {
+                e.preventDefault();
+                toast({ title: "준비중입니다", description: "빠른 시일 내에 제공될 예정입니다." });
+              }}
+            >
               <FileText className="h-4 w-4" />
               <span>API 문서</span>
             </a>
